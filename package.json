@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "dotenv": "^6.2.0",
+    "kafka-node": "^4.0.1"
+  }
+}
