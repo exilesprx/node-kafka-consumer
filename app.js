@@ -2,9 +2,12 @@ require('dotenv').config();
 
 const kafka = require('kafka-node');
 
+const host = process.env.KAFKA_HOST;
+const port = process.env.KAFKA_PORT;
+
 const client = new kafka.KafkaClient(
     {
-        kafkaHost: ""
+        kafkaHost: `${host}:${port}`
     }
 );
 
