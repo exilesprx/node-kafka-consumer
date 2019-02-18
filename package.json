@@ -6,5 +6,12 @@
     "dotenv": "^6.2.0",
     "kafka-node": "^4.0.1",
     "nodemon": "^1.18.10"
-  }
+  },
+  "name": "node-kafka",
+  "version": "1.0.0",
+  "description": "Node server that consumes kafka messages.",
+  "main": "app.js",
+  "repository": "git@github.com:exilesprx/node-kafka-consumer.git",
+  "author": "Exilesprx",
+  "license": "MIT"
 }
