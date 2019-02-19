@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const kafka = require('kafka-node');
+const winston = require('./logger');
 
 const host = process.env.KAFKA_HOST;
 const port = process.env.KAFKA_PORT;
@@ -22,7 +23,13 @@ const consumer = new kafka.Consumer(
 );
 
 const messageEvent = function(message) {
-    console.log(message);
+    winston.log(
+        {
+            level: 'info',
+            message: `Message from kafka: ${message}`
+        }
+    );
+    
 }
 
 consumer.on('message', messageEvent);

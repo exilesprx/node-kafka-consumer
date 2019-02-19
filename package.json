@@ -5,7 +5,8 @@
   "dependencies": {
     "dotenv": "^6.2.0",
     "kafka-node": "^4.0.1",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "winston": "^3.2.1"
   },
   "name": "node-kafka",
   "version": "1.0.0",
