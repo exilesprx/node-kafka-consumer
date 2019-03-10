@@ -9,8 +9,8 @@ const wss = new WebSocket.Server(
 wss.on('connection', () => {
     winston.log(
         {
-            level: "info",
-            message: "A socket connected"
+            level: 'info',
+            message: "Websocket connection now open."
         }
     );
 });

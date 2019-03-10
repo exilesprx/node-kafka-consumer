@@ -1,49 +1,37 @@
 const kafka = require('kafka-node');
+const uuid4 = require('uuid/v4');
 const winston = require('../logger');
+const emitter = require('../events/emitter');
 
 const host = process.env.KAFKA_HOST;
 const port = process.env.KAFKA_PORT;
+const queue = process.env.KAFKA_QUEUE;
 
-const client = new kafka.KafkaClient(
+const consumer = new kafka.ConsumerGroup(
     {
         kafkaHost: `${host}:${port}`,
-        groupId: '5c5f088ede2e46.85073015'
-    }
+        groupId: uuid4(),
+        fromOffset: 'latest'
+    },
+    [
+        queue
+    ]
 );
 
-const consumer = new kafka.Consumer(
-    client,
-    [
-        { topic: 'user.created', partition: 0 }
-    ],
-    {
-        autoCommit: false
-    }
-);
+consumer.on('message', function(message) {
+    
+    let value = JSON.parse(message.value);
+    let event = value.properties.event;
+    let body = JSON.parse(value.body);
+    
+    emitter.emit(event, body);
+});
 
 consumer.on('error', function(error) {
     winston.log(
         {
             level: 'error',
-            message: `Error message: ${error}`
-        }
-    );
-});
-
-client.on('connect', function() {
-    winston.log(
-        {
-            level: 'info',
-            message: 'Connection occured'
-        }
-    );
-});
-
-client.on('ready', function() {
-    winston.log(
-        {
-            level: 'info',
-            message: 'Brokers are ready'
+            message: error
         }
     );
 });
