@@ -24,7 +24,7 @@ consumer.on('message', function(message) {
     let event = value.properties.event;
     let body = JSON.parse(value.body);
     
-    emitter.emit(event, body);
+    emitter.emit('room.message', event, body);
 });
 
 consumer.on('error', function(error) {
