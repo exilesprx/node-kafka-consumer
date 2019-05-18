@@ -1,16 +1,15 @@
 const emitter = require('../events/emitter');
 let rooms = [];
 
-emitter.on('join', (room, client) => {
-
+let onJoin = (room, client) => {
     if (client.rooms == undefined) {
         client.rooms = [];
     }
 
     client.rooms.push(room);
-});
+}
 
-emitter.on('leave', (room, client) => {
+let onLeave = (room, client) => {
 
     if (client.rooms == undefined) {
         return;
@@ -19,7 +18,11 @@ emitter.on('leave', (room, client) => {
     let index = client.rooms.indexOf(room);
 
     client.rooms.splice(index, 1);
-});
+}
+
+emitter.on('join', onJoin);
+
+emitter.on('leave', onLeave);
 
 module.exports = {
     rooms: rooms

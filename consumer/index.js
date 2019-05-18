@@ -18,22 +18,26 @@ const consumer = new kafka.ConsumerGroup(
     ]
 );
 
-consumer.on('message', function(message) {
-    
-    let value = JSON.parse(message.value);
-    let event = value.properties.event;
-    let body = JSON.parse(value.body);
-    
-    emitter.emit('room.message', event, body);
-});
-
-consumer.on('error', function(error) {
+let onError = function(error) {
     winston.log(
         {
             level: 'error',
             message: error
         }
     );
-});
+}
+
+let onMessage = function(message) {
+    
+    let value = JSON.parse(message.value);
+    let event = value.properties.event;
+    let body = JSON.parse(value.body);
+    
+    emitter.emit('room.message', event, body);
+}
+
+consumer.on('error', onError);
+
+consumer.on('message', onMessage);
 
 module.exports = consumer;

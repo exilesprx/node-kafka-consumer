@@ -7,7 +7,7 @@ const wss = new WebSocket.Server(
     }
 );
 
-wss.on('connection', (client) => {
+let onConnection = (client) => {
     winston.log(
         {
             level: 'info',
@@ -29,6 +29,8 @@ wss.on('connection', (client) => {
             emitter.emit('leave', room, client)
         }
     });
-});
+}
+
+wss.on('connection', onConnection);
 
 module.exports = wss;
